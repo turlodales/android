@@ -28,7 +28,6 @@ import android.accounts.AccountManagerFuture
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -50,8 +49,11 @@ import com.owncloud.android.BuildConfig
 import com.owncloud.android.MainApp.Companion.initDependencyInjection
 import com.owncloud.android.R
 import com.owncloud.android.authentication.AccountUtils
+import com.owncloud.android.extensions.goToUrl
+import com.owncloud.android.extensions.sendEmail
 import com.owncloud.android.lib.common.OwnCloudAccount
 import com.owncloud.android.presentation.UIResult
+import com.owncloud.android.presentation.ui.settings.SettingsActivity
 import com.owncloud.android.presentation.viewmodels.drawer.DrawerViewModel
 import com.owncloud.android.utils.AvatarUtils
 import com.owncloud.android.utils.DisplayUtils
@@ -162,7 +164,7 @@ abstract class DrawerActivity : ToolbarActivity() {
             getDrawerLayout()?.closeDrawers()
             when (menuItem.itemId) {
                 R.id.nav_settings -> {
-                    val settingsIntent = Intent(applicationContext, Preferences::class.java)
+                    val settingsIntent = Intent(applicationContext, SettingsActivity::class.java)
                     startActivity(settingsIntent)
                 }
                 R.id.drawer_menu_account_add -> createAccount(false)
@@ -218,20 +220,13 @@ abstract class DrawerActivity : ToolbarActivity() {
     }
 
     private fun openHelp() {
-        val helpWeb = getText(R.string.url_help) as String
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(helpWeb))
-        startActivity(intent)
+        goToUrl(url = getString(R.string.url_help))
     }
 
     private fun openFeedback() {
         val feedbackMail = getString(R.string.mail_feedback)
         val feedback = "Android v" + BuildConfig.VERSION_NAME + " - " + getString(R.string.drawer_feedback)
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            putExtra(Intent.EXTRA_SUBJECT, feedback)
-            data = Uri.parse(feedbackMail)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        startActivity(intent)
+        sendEmail(email = feedbackMail, subject = feedback)
     }
 
     /**

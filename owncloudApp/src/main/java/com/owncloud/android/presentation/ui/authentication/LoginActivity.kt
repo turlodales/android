@@ -40,7 +40,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import com.owncloud.android.MainApp
+import com.owncloud.android.BuildConfig
 import com.owncloud.android.MainApp.Companion.accountType
 import com.owncloud.android.R
 import com.owncloud.android.authentication.oauth.OAuthUtils
@@ -55,12 +55,14 @@ import com.owncloud.android.domain.exceptions.ServerNotReachableException
 import com.owncloud.android.domain.exceptions.UnauthorizedException
 import com.owncloud.android.domain.server.model.AuthenticationMethod
 import com.owncloud.android.domain.server.model.ServerInfo
+import com.owncloud.android.extensions.goToUrl
 import com.owncloud.android.extensions.parseError
 import com.owncloud.android.extensions.showErrorInToast
 import com.owncloud.android.lib.common.accounts.AccountTypeUtils
 import com.owncloud.android.lib.common.accounts.AccountUtils
 import com.owncloud.android.lib.common.network.CertificateCombinedException
 import com.owncloud.android.presentation.UIResult
+import com.owncloud.android.presentation.ui.settings.SettingsActivity
 import com.owncloud.android.presentation.viewmodels.authentication.OCAuthenticationViewModel
 import com.owncloud.android.presentation.viewmodels.oauth.OAuthViewModel
 import com.owncloud.android.providers.ContextProvider
@@ -95,7 +97,7 @@ class LoginActivity : AppCompatActivity(), SslUntrustedCertDialog.OnSslUntrusted
         super.onCreate(savedInstanceState)
 
         // Protection against screen recording
-        if (!MainApp.isDeveloper) {
+        if (!BuildConfig.DEBUG) {
             window.addFlags(FLAG_SECURE)
         } // else, let it go, or taking screenshots & testing will not be possible
 
@@ -156,6 +158,11 @@ class LoginActivity : AppCompatActivity(), SslUntrustedCertDialog.OnSslUntrusted
                     if (loginAction != ACTION_CREATE) userAccount?.name else null
                 )
             }
+        }
+
+        binding.settingsLink.setOnClickListener {
+            val settingsIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(settingsIntent)
         }
 
         accountAuthenticatorResponse = intent.getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE)
@@ -651,10 +658,8 @@ class LoginActivity : AppCompatActivity(), SslUntrustedCertDialog.OnSslUntrusted
                 isVisible = true
                 text = String.format(getString(R.string.auth_register), getString(R.string.app_name))
                 setOnClickListener {
-                    val openWelcomeLinkIntent =
-                        Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.welcome_link_url)))
                     setResult(Activity.RESULT_CANCELED)
-                    startActivity(openWelcomeLinkIntent)
+                    goToUrl(url = getString(R.string.welcome_link_url))
                 }
             } else isVisible = false
         }

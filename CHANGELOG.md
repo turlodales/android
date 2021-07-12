@@ -1,6 +1,6 @@
-Changelog for ownCloud Android Client [unreleased] (UNRELEASED)
+Changelog for ownCloud Android Client [2.18.0] (2021-05-24)
 =======================================
-The following sections list the changes in ownCloud Android Client unreleased relevant to
+The following sections list the changes in ownCloud Android Client 2.18.0 relevant to
 ownCloud admins and users.
 
 
@@ -10,9 +10,17 @@ Summary
 
 * Bugfix - Fix navbar is visible in file preview screen after rotation: [#3184](https://github.com/owncloud/android/pull/3184)
 * Bugfix - Fix a bug when some fields where not retrieved from OIDC Discovery: [#3202](https://github.com/owncloud/android/pull/3202)
+* Bugfix - Snackbar in passcode view is not displayed: [#2722](https://github.com/owncloud/android/issues/2722)
+* Bugfix - Fixed problem when a file is edited externally: [#2752](https://github.com/owncloud/android/issues/2752)
+* Bugfix - Fix permissions were displayed in share creation view after rotation: [#3204](https://github.com/owncloud/android/issues/3204)
+* Change - Error handling for pattern lock: [#3215](https://github.com/owncloud/android/issues/3215)
+* Change - Hide biometrical if device does not support it: [#3217](https://github.com/owncloud/android/issues/3217)
 * Enhancement - Replace blank view in music player with cover art: [#3121](https://github.com/owncloud/android/issues/3121)
+* Enhancement - Move to AndroidX Preference and new structure for settings: [#2867](https://github.com/owncloud/android/issues/2867)
 * Enhancement - Support for apk files: [#2691](https://github.com/owncloud/android/issues/2691)
 * Enhancement - Align previews actions: [#3155](https://github.com/owncloud/android/issues/3155)
+* Enhancement - Settings accessible even when no account is attached: [#2638](https://github.com/owncloud/android/issues/2638)
+* Enhancement - Fixed account for camera uploads: [#3166](https://github.com/owncloud/android/issues/3166)
 
 Details
 -------
@@ -34,6 +42,47 @@ Details
    https://github.com/owncloud/android/pull/3202
    https://github.com/owncloud/android-library/pull/392
 
+* Bugfix - Snackbar in passcode view is not displayed: [#2722](https://github.com/owncloud/android/issues/2722)
+
+   Snackbar telling about an error in a failed enter or reenter of the passcode wasn't visible.
+   Now, the message is shown in a text just below the passcode input.
+
+   https://github.com/owncloud/android/issues/2722
+   https://github.com/owncloud/android/pull/3210
+
+* Bugfix - Fixed problem when a file is edited externally: [#2752](https://github.com/owncloud/android/issues/2752)
+
+   If an external editor modifies a file, the new size will not match when it is assembled in server
+   side. Fixed by removing the if-match header from the proper place
+
+   https://github.com/owncloud/android/issues/2752
+   https://github.com/owncloud/android/pull/3220
+
+* Bugfix - Fix permissions were displayed in share creation view after rotation: [#3204](https://github.com/owncloud/android/issues/3204)
+
+   Permissions view was shown when creating a share for a file after rotation. Capabilities were
+   taken into account just once. Now, the permissions view is shown only when capabilities match.
+
+   https://github.com/owncloud/android/issues/3204
+   https://github.com/owncloud/android/pull/3234
+
+* Change - Error handling for pattern lock: [#3215](https://github.com/owncloud/android/issues/3215)
+
+   Error messages when an incorrect pattern was entered were shown in a snackbar. Now, they are
+   displayed in a text below the pattern input, just like in the passcode screen.
+
+   https://github.com/owncloud/android/issues/3215
+   https://github.com/owncloud/android/pull/3221
+
+* Change - Hide biometrical if device does not support it: [#3217](https://github.com/owncloud/android/issues/3217)
+
+   Biometric lock preference in "Security" settings subsection was shown even when the device
+   didn't support biometrics (if it was Android 6.0 or later versions). Now, the preference is
+   only shown if the device has the suitable hardware for it.
+
+   https://github.com/owncloud/android/issues/3217
+   https://github.com/owncloud/android/pull/3230
+
 * Enhancement - Replace blank view in music player with cover art: [#3121](https://github.com/owncloud/android/issues/3121)
 
    Blank view in the music preview player with styled up cover art was replaced. For music files
@@ -41,6 +90,16 @@ Details
 
    https://github.com/owncloud/android/issues/3121
    https://github.com/owncloud/android/pull/3182
+
+* Enhancement - Move to AndroidX Preference and new structure for settings: [#2867](https://github.com/owncloud/android/issues/2867)
+
+   Settings have been updated to use the current Android's recommendation, AndroidX framework.
+   In addition, they have been reorganized into subsections for a better understanding and
+   navigation structure. Also, new features have been added: now, source path and behaviour in
+   auto uploads can be chosen differently for pictures and videos.
+
+   https://github.com/owncloud/android/issues/2867
+   https://github.com/owncloud/android/pull/3143
 
 * Enhancement - Support for apk files: [#2691](https://github.com/owncloud/android/issues/2691)
 
@@ -58,6 +117,24 @@ Details
 
    https://github.com/owncloud/android/issues/3155
    https://github.com/owncloud/android/pull/3177
+
+* Enhancement - Settings accessible even when no account is attached: [#2638](https://github.com/owncloud/android/issues/2638)
+
+   Now, settings can be accessed via a button in the login screen, removing the necessity to have an
+   attached account. However, auto picture and video uploads won't be available until an account
+   is registered in the app.
+
+   https://github.com/owncloud/android/issues/2638
+   https://github.com/owncloud/android/pull/3218
+
+* Enhancement - Fixed account for camera uploads: [#3166](https://github.com/owncloud/android/issues/3166)
+
+   Camera uploads will be uploaded to a fixed account independently of the current account.
+   Removing the account attached to camera uploads will disable this feature. User will be warned
+   when removing an account that has camera uploads attached.
+
+   https://github.com/owncloud/android/issues/3166
+   https://github.com/owncloud/android/pull/3226
 
 ## 2.17 (March 2021)
 - Toolbar redesign

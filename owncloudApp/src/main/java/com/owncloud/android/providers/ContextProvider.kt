@@ -2,8 +2,9 @@
  * ownCloud Android client application
  *
  * @author Abel García de Prada
+ * @author Juan Carlos Garrote Gascón
  *
- * Copyright (C) 2020 ownCloud GmbH.
+ * Copyright (C) 2021 ownCloud GmbH.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2,
@@ -28,5 +29,4 @@ interface ContextProvider {
     fun getString(id: Int): String
     fun getContext(): Context
     fun isConnected(): Boolean
-
 }

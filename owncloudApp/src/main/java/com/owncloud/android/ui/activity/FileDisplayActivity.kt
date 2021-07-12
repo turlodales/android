@@ -52,6 +52,7 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.snackbar.Snackbar
 import com.owncloud.android.AppRater
+import com.owncloud.android.BuildConfig
 import com.owncloud.android.MainApp
 import com.owncloud.android.R
 import com.owncloud.android.authentication.BiometricManager
@@ -216,7 +217,7 @@ class FileDisplayActivity : FileActivity(), FileFragment.ContainerActivity, OnEn
 
         Timber.v("onCreate() end")
 
-        if (resources.getBoolean(R.bool.enable_rate_me_feature) && !MainApp.isDeveloper) {
+        if (resources.getBoolean(R.bool.enable_rate_me_feature) && !BuildConfig.DEBUG) {
             AppRater.appLaunched(this, packageName)
         }
     }
@@ -224,7 +225,7 @@ class FileDisplayActivity : FileActivity(), FileFragment.ContainerActivity, OnEn
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
-        if (PermissionUtil.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (PermissionUtil.isPermissionNotGranted(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             // Check if we should show an explanation
             if (PermissionUtil.shouldShowRequestPermissionRationale(
                     this,
